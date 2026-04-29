@@ -10,10 +10,11 @@
         header { background: white; width: 100%; text-align: center; padding: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         h1 { margin: 0; font-size: 24px; color: var(--dark-brown); }
         .subtitle { margin: 5px 0 0; font-size: 14px; color: #795548; opacity: 0.8; }
+        .address-line { font-size: 12px; color: #8d6e63; margin-top: 4px; font-weight: 500; }
         .menu-container { max-width: 500px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
         .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .form-card { flex-direction: column; align-items: stretch; }
-        input, textarea { border: 1px solid #E0E0E0; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 14px; outline: none; }
+        input, textarea, select { border: 1px solid #E0E0E0; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 14px; outline: none; background: white; }
         .item-image { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; }
         .item-details { flex: 1; margin-left: 15px; }
         .item-name { font-weight: bold; font-size: 16px; margin: 0; }
@@ -31,13 +32,20 @@
 <header>
     <h1>Cafe Baithak</h1>
     <p class="subtitle">Cloud Kitchen Delivery</p>
+    <p class="address-line">📍 Playshire, Lohegaon road, Wagholi</p>
 </header>
 
 <div class="menu-container">
     <div class="card form-card">
         <input type="text" id="custName" placeholder="Your Name">
         <input type="tel" id="custMobile" placeholder="WhatsApp Number">
-        <textarea id="custAddress" placeholder="Full Delivery Address">Playshire, Lohegaon road, Wagholi</textarea>
+        
+        <select id="deliveryMethod" onchange="toggleAddress()">
+            <option value="Home Delivery">Home Delivery</option>
+            <option value="Self Pickup">Self Pickup</option>
+        </select>
+        
+        <textarea id="custAddress" placeholder="Full Delivery Address"></textarea>
     </div>
 
     <div class="card">
@@ -55,7 +63,7 @@
     <div class="card">
         <img src="https://img.icons8.com/color/96/sandwich.png" class="item-image">
         <div class="item-details"><span class="veg-tag">● Veg</span><p class="item-name">Bread Pakoda</p><span class="item-price">₹30</span></div>
-        <div class="qty-controls"><button class="btn-qty" onclick="updateQty('q4', -1, 20)">-</button><span id="q4" class="qty-val">0</span><button class="btn-qty" onclick="updateQty('q4', 1, 30)">+</button></div>
+        <div class="qty-controls"><button class="btn-qty" onclick="updateQty('q4', -1, 30)">-</button><span id="q4" class="qty-val">0</span><button class="btn-qty" onclick="updateQty('q4', 1, 30)">+</button></div>
     </div>
 
     <div class="card">
@@ -79,6 +87,17 @@
         q3: { name: "Veg Momos", price: 60 }
     };
 
+    // Hide address box if Self Pickup is selected
+    function toggleAddress() {
+        const method = document.getElementById('deliveryMethod').value;
+        const addressBox = document.getElementById('custAddress');
+        if (method === "Self Pickup") {
+            addressBox.style.display = "none";
+        } else {
+            addressBox.style.display = "block";
+        }
+    }
+
     function updateQty(id, change, price) {
         let el = document.getElementById(id);
         let next = parseInt(el.innerText) + change;
@@ -91,8 +110,13 @@
     function sendToWhatsApp() {
         const name = document.getElementById('custName').value;
         const mobile = document.getElementById('custMobile').value;
+        const method = document.getElementById('deliveryMethod').value;
         const address = document.getElementById('custAddress').value;
-        if (!name || !mobile || !address) { alert("Please fill details!"); return; }
+
+        if (!name || !mobile || (method === "Home Delivery" && !address)) { 
+            alert("Please fill in all details!"); 
+            return; 
+        }
 
         let orderList = "";
         for (let key in items) {
@@ -102,7 +126,9 @@
 
         if (cartTotal === 0) { alert("Add an item!"); return; }
 
-        const finalMsg = `*New Order - Cafe Baithak*%0A%0A*Name:* ${name}%0A*Address:* ${address}%0A%0A*Items:*%0A${encodeURIComponent(orderList)}%0A*Total:* ₹${cartTotal}`;
+        const addressText = method === "Self Pickup" ? "Customer will pick up" : address;
+
+        const finalMsg = `*New Order - Cafe Baithak*%0A%0A*Name:* ${name}%0A*Method:* ${method}%0A*Address:* ${addressText}%0A%0A*Items:*%0A${encodeURIComponent(orderList)}%0A*Total:* ₹${cartTotal}`;
         window.open(`https://wa.me/919538003340?text=${finalMsg}`);
     }
 </script>
