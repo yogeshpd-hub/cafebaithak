@@ -5,212 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cafe Baithak - Cloud Kitchen</title>
     <style>
-        body {
-            background-color: #FFF8E1;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #5D4037;
-        }
-
-        h1 { margin-top: 32px; font-size: 28px; font-weight: bold; color: #3E2723; }
-        .subtitle { margin-top: 8px; font-size: 18px; color: #795548; margin-bottom: 16px; }
-
-        .menu-container {
-            width: 100%;
-            max-width: 480px;
-            padding: 8px;
-            box-sizing: border-box;
-            margin-bottom: 120px; 
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin: 16px 8px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Form Styling */
+        :root { --primary: #4CAF50; --dark-brown: #3E2723; --bg-color: #FFF8E1; }
+        body { background-color: var(--bg-color); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; color: #5D4037; }
+        header { background: white; width: 100%; text-align: center; padding: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        h1 { margin: 0; font-size: 24px; color: var(--dark-brown); }
+        .subtitle { margin: 5px 0 0; font-size: 14px; color: #795548; opacity: 0.8; }
+        .menu-container { max-width: 500px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .form-card { flex-direction: column; align-items: stretch; }
-        .form-card h3 { margin: 0 0 12px 0; font-size: 18px; color: #3E2723; }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #D7CCC8;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 14px;
-            background-color: #FAFAFA;
-        }
-        textarea { height: 60px; resize: none; }
-
-        .item-image { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; }
-        .item-details { margin-left: 16px; flex: 1; }
-        .item-name { font-size: 18px; font-weight: bold; color: #3E2723; margin: 0; }
-        .item-desc { font-size: 14px; color: #5D4037; margin: 4px 0; }
-        .item-price { font-size: 16px; font-weight: bold; color: #D32F2F; }
-
-        .qty-box {
-            display: flex;
-            align-items: center;
-            background-color: #F5F5F5;
-            border-radius: 6px;
-            padding: 2px;
-        }
-        .btn-qty { width: 32px; height: 32px; cursor: pointer; font-size: 20px; font-weight: bold; border: none; background: transparent; }
-        .minus { color: #D32F2F; }
-        .plus { color: #4CAF50; }
-        .qty-text { width: 30px; text-align: center; font-weight: bold; }
-
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            padding: 16px;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            border-radius: 16px 16px 0 0;
-            z-index: 100;
-        }
-        .total-section h2 { margin: 0; color: #3E2723; font-size: 22px; }
-        .btn-order { background-color: #4CAF50; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        input, textarea { border: 1px solid #E0E0E0; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 14px; outline: none; }
+        .item-image { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; }
+        .item-details { flex: 1; margin-left: 15px; }
+        .item-name { font-weight: bold; font-size: 16px; margin: 0; }
+        .veg-tag { color: #2e7d32; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .item-price { font-weight: bold; color: #000; margin-top: 5px; display: block; }
+        .qty-controls { display: flex; align-items: center; background: #f8f9fa; border-radius: 8px; border: 1px solid #eee; }
+        .btn-qty { border: none; background: none; padding: 8px 12px; font-size: 18px; font-weight: bold; cursor: pointer; color: var(--primary); }
+        .qty-val { width: 25px; text-align: center; font-weight: bold; }
+        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; border-radius: 20px 20px 0 0; }
+        .order-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; }
     </style>
 </head>
 <body>
 
+<header>
     <h1>Cafe Baithak</h1>
     <p class="subtitle">Cloud Kitchen Delivery</p>
+</header>
 
-    <div class="menu-container">
-        <div class="card form-card">
-            <h3>Delivery Details</h3>
-            <input type="text" id="custName" placeholder="Full Name">
-            <input type="tel" id="custMobile" placeholder="Mobile Number">
-            <textarea id="custAddress" placeholder="Full Delivery Address"></textarea>
-        </div>
-
-        <div class="card">
-            <img src="https://img.icons8.com/color/96/samosa.png" class="item-image">
-            <div class="item-details">
-                <p class="item-name">Bikaneri Samosa</p>
-                <p class="item-desc">Crispy fried pastry.</p>
-                <span class="item-price">₹20</span>
-            </div>
-            <div class="qty-box">
-                <button class="btn-qty minus" onclick="updateQty('qty1', -1, 20)">-</button>
-                <span id="qty1" class="qty-text">0</span>
-                <button class="btn-qty plus" onclick="updateQty('qty1', 1, 20)">+</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="https://img.icons8.com/color/96/bakery.png" class="item-image">
-            <div class="item-details">
-                <p class="item-name">Moongdal Kachori</p>
-                <p class="item-desc">Golden flaky lentil pastry.</p>
-                <span class="item-price">₹20</span>
-            </div>
-            <div class="qty-box">
-                <button class="btn-qty minus" onclick="updateQty('qty2', -1, 20)">-</button>
-                <span id="qty2" class="qty-text">0</span>
-                <button class="btn-qty plus" onclick="updateQty('qty2', 1, 20)">+</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="https://img.icons8.com/color/96/dim-sum.png" class="item-image">
-            <div class="item-details">
-                <p class="item-name">Veg Momos</p>
-                <p class="item-desc">Fresh steamed dumplings.</p>
-                <span class="item-price">₹60</span>
-            </div>
-            <div class="qty-box">
-                <button class="btn-qty minus" onclick="updateQty('qty3', -1, 60)">-</button>
-                <span id="qty3" class="qty-text">0</span>
-                <button class="btn-qty plus" onclick="updateQty('qty3', 1, 60)">+</button>
-            </div>
-        </div>
+<div class="menu-container">
+    <div class="card form-card">
+        <input type="text" id="custName" placeholder="Your Name">
+        <input type="tel" id="custMobile" placeholder="WhatsApp Number">
+        <textarea id="custAddress" placeholder="Full Delivery Address">Playshire, Lohegaon road, Wagholi</textarea>
     </div>
 
-    <div class="bottom-bar">
-        <div class="total-section">
-            <p style="margin:0; font-size:12px;">Total Amount</p>
-            <h2 id="total-price">₹0</h2>
-        </div>
-        <button class="btn-order" onclick="placeOrder()">Place Order</button>
+    <div class="card">
+        <img src="https://img.icons8.com/color/96/samosa.png" class="item-image">
+        <div class="item-details"><span class="veg-tag">● Veg</span><p class="item-name">Bikaneri Samosa</p><span class="item-price">₹20</span></div>
+        <div class="qty-controls"><button class="btn-qty" onclick="updateQty('q1', -1, 20)">-</button><span id="q1" class="qty-val">0</span><button class="btn-qty" onclick="updateQty('q1', 1, 20)">+</button></div>
     </div>
 
-    <script>
-        let total = 0;
+    <div class="card">
+        <img src="https://img.icons8.com/color/96/bakery.png" class="item-image">
+        <div class="item-details"><span class="veg-tag">● Veg</span><p class="item-name">Moongdal Kachori</p><span class="item-price">₹20</span></div>
+        <div class="qty-controls"><button class="btn-qty" onclick="updateQty('q2', -1, 20)">-</button><span id="q2" class="qty-val">0</span><button class="btn-qty" onclick="updateQty('q2', 1, 20)">+</button></div>
+    </div>
 
-        function updateQty(id, change, price) {
-            const qtyElement = document.getElementById(id);
-            let currentQty = parseInt(qtyElement.innerText);
-            let newQty = currentQty + change;
-            if (newQty < 0) return;
+    <div class="card">
+        <img src="https://img.icons8.com/color/96/sandwich.png" class="item-image">
+        <div class="item-details"><span class="veg-tag">● Veg</span><p class="item-name">Bread Pakoda</p><span class="item-price">₹30</span></div>
+        <div class="qty-controls"><button class="btn-qty" onclick="updateQty('q4', -1, 30)">-</button><span id="q4" class="qty-val">0</span><button class="btn-qty" onclick="updateQty('q4', 1, 30)">+</button></div>
+    </div>
 
-            qtyElement.innerText = newQty;
-            total += (change * price);
-            document.getElementById('total-price').innerText = "₹" + total;
+    <div class="card">
+        <img src="https://img.icons8.com/color/96/dim-sum.png" class="item-image">
+        <div class="item-details"><span class="veg-tag">● Veg</span><p class="item-name">Veg Momos</p><span class="item-price">₹60</span></div>
+        <div class="qty-controls"><button class="btn-qty" onclick="updateQty('q3', -1, 60)">-</button><span id="q3" class="qty-val">0</span><button class="btn-qty" onclick="updateQty('q3', 1, 60)">+</button></div>
+    </div>
+</div>
+
+<div class="footer-bar">
+    <div><p style="margin:0; font-size:12px; color: #777;">Total Bill</p><h2 id="grand-total" style="margin:0; color:#000;">₹0</h2></div>
+    <button class="order-btn" onclick="sendToWhatsApp()">Order on WhatsApp</button>
+</div>
+
+<script>
+    let cartTotal = 0;
+    const items = {
+        q1: { name: "Bikaneri Samosa", price: 20 },
+        q2: { name: "Moongdal Kachori", price: 20 },
+        q4: { name: "Bread Pakoda", price: 30 },
+        q3: { name: "Veg Momos", price: 60 }
+    };
+
+    function updateQty(id, change, price) {
+        let el = document.getElementById(id);
+        let next = parseInt(el.innerText) + change;
+        if (next < 0) return;
+        el.innerText = next;
+        cartTotal += (change * price);
+        document.getElementById('grand-total').innerText = "₹" + cartTotal;
+    }
+
+    function sendToWhatsApp() {
+        const name = document.getElementById('custName').value;
+        const mobile = document.getElementById('custMobile').value;
+        const address = document.getElementById('custAddress').value;
+        if (!name || !mobile || !address) { alert("Please fill details!"); return; }
+
+        let orderList = "";
+        for (let key in items) {
+            let qty = document.getElementById(key).innerText;
+            if (qty > 0) orderList += `• ${items[key].name} (x${qty})\n`;
         }
 
-        function placeOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const mobile = document.getElementById('custMobile').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
+        if (cartTotal === 0) { alert("Add an item!"); return; }
 
-            if (total === 0) {
-                alert("Please add items to your cart first!");
-                return;
-            }
-            if (!name || !mobile || !address) {
-                alert("Please fill in your Name, Mobile, and Address!");
-                return;
-            }
-
-            // Compile the item list
-            let itemSummary = "";
-            const menuItems = [
-                { id: 'qty1', name: 'Bikaneri Samosa' },
-                { id: 'qty2', name: 'Moongdal Kachori' },
-                { id: 'qty3', name: 'Veg Momos' }
-            ];
-
-            menuItems.forEach(item => {
-                const qty = document.getElementById(item.id).innerText;
-                if (parseInt(qty) > 0) {
-                    itemSummary += `• ${item.name} x ${qty}\n`;
-                }
-            });
-
-            // Format WhatsApp Message
-            const msg = `*NEW ORDER - CAFE BAITHAK*%0A` +
-                        `--------------------------%0A` +
-                        `*Customer:* ${name}%0A` +
-                        `*Mobile:* ${mobile}%0A` +
-                        `*Address:* ${address}%0A` +
-                        `--------------------------%0A` +
-                        `*Items:*%0A${encodeURIComponent(itemSummary)}` +
-                        `--------------------------%0A` +
-                        `*TOTAL BILL: ₹${total}*%0A` +
-                        `--------------------------`;
-
-            const whatsappNumber = "919538003340";
-            window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank');
-        }
-    </script>
+        const finalMsg = `*New Order - Cafe Baithak*%0A%0A*Name:* ${name}%0A*Address:* ${address}%0A%0A*Items:*%0A${encodeURIComponent(orderList)}%0A*Total:* ₹${cartTotal}`;
+        window.open(`https://wa.me/919538003340?text=${finalMsg}`);
+    }
+</script>
 </body>
 </html>
